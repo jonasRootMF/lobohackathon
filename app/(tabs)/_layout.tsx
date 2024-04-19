@@ -29,8 +29,8 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Tab One',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          title: 'QR',
+          tabBarIcon: ({ color }) => <TabBarIcon name="qrcode" color={color} />,
           headerRight: () => (
             <Link href="/modal" asChild>
               <Pressable>
