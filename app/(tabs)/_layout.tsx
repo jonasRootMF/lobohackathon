@@ -30,21 +30,7 @@ export default function TabLayout() {
         name="index"
         options={{
           title: 'QR',
-          tabBarIcon: ({ color }) => <TabBarIcon name="qrcode" color={color} />,
-          headerRight: () => (
-            <Link href="/modal" asChild>
-              <Pressable>
-                {({ pressed }) => (
-                  <FontAwesome
-                    name="info-circle"
-                    size={25}
-                    color={Colors[colorScheme ?? 'light'].text}
-                    style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
-                  />
-                )}
-              </Pressable>
-            </Link>
-          ),
+          tabBarIcon: ({ color }) => <TabBarIcon name="qrcode" color={'#ff5a00'} />,
         }}
       />
       <Tabs.Screen
