@@ -8,24 +8,49 @@ import React, { useState, useEffect } from 'react';
 import { Text, View, TouchableOpacity, Image } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import { BarCodeEvent, BarCodeScannerResult } from 'expo-barcode-scanner';
+import { CameraView, Camera } from 'expo-camera/next'
+import axios from 'axios';
+
 
 export default function TabOneScreen() {
 
   // Implement scan QR code
   const [hasPermission, setHasPermission] = useState<boolean | null>(null);
   const [scanned, setScanned] = useState<boolean>(false);
-  const [text, setText] = useState<string>('Scan QR Code');
+  const [QRData, setQRData] = useState<{
+    parkingLot: string;
+    userId: string;
+    event: 'checkIn' | 'checkOut'
+  } | null>(null);
+
+  // Variables to send to backend
+  const urlBackend = 'http://172.28.150.153:3000/api/kigo/v1/';
 
   useEffect(() => {
     (async () => {
-      const { status } = await BarCodeScanner.requestPermissionsAsync();
+      const { status } = await Camera.requestCameraPermissionsAsync();
       setHasPermission(status === 'granted');
     })();
   }, []);
 
+  // Send the JSON to backend only when the data change
+  useEffect(() => {
+    if (QRData !== null) {
+      const postUrl = QRData?.event === 'checkIn' ? 'checkin' : 'checkout'
+      axios.post(`${urlBackend}/${postUrl}`, QRData)
+        .then(response => {
+          console.log('Data posted successfully:', response.data);
+        })
+        .catch(error => {
+          console.error('Error posting data:', JSON.stringify(error));
+        });
+    }
+  }, [QRData]);
+
+
   const handleBarCodeScanned = ({ type, data }: BarCodeScannerResult) => {
     setScanned(true);
-    setText(data);
+    setQRData(JSON.parse(data));
     console.log(`Bar code with type ${type} and data ${data} has been scanned!`);
   };
 
@@ -39,11 +64,6 @@ export default function TabOneScreen() {
 
 
   return (
-    // <View style={styles.container}>
-    //   <Text style={styles.title}>Tab One</Text>
-    //   <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-    //   <EditScreenInfo path="app/(tabs)/index.tsx" />
-    // </View>
 
     <View style={styles.container}>
       <BarCodeScanner
@@ -51,77 +71,42 @@ export default function TabOneScreen() {
         onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
       />
 
-      {/* <BarCodeScanner
-        onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
-        style={StyleSheet.absoluteFillObject}
-      /> */}
-      <Text style={styles.maintext}>{text}</Text>
+      <Text style={styles.titleScreen}>Scan QR Code</Text>
+
+      <View style={styles.overlay}>
+          <Image
+            source={require('../../assets/images/cuadrado.png')}
+            style={styles.overlayImage}
+          />
+        </View>
 
       {scanned && (
         <View style={styles.buttonContainer}>
-        <TouchableOpacity
-        style={styles.button}
-        onPress={() => setScanned(false)}
-        >
-          <Text style={styles.buttonText}>Tap to Scan Again</Text>
-        </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => setScanned(false)}
+          >
+            <Text style={styles.buttonText}>Scan Again</Text>
+          </TouchableOpacity>
         </View>
       )}
-      
-      
+
+
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  // container: {
-  //   flex: 1,
-  //   alignItems: 'center',
-  //   justifyContent: 'center',
-  // },
-  // title: {
-  //   fontSize: 20,
-  //   fontWeight: 'bold',
-  // },
-  // separator: {
-  //   marginVertical: 30,
-  //   height: 1,
-  //   width: '80%',
-  // },
-
-  // container: {
-  //   flex: 1,
-  //   flexDirection: 'column',
-  //   justifyContent: 'center',
-  //   alignItems: 'center',
-  //   backgroundColor: 'black',
-  // },
-  // buttonContainer: {
-  // },
-  // button: {
-  //   padding: 10,
-  //   backgroundColor: '#007BFF',
-  //   borderRadius: 5,
-  //   marginTop: 30
-  // },
-  // buttonText: {
-  //   color: 'white',
-  //   textAlign: 'center',
-  // },
-  // maintext: {
-  //   fontSize: 18,
-  //   margin: 20,
-  //   color: 'white'
-  // }
-
+  
   container: {
+    backgroundColor: 'white',
     flex: 1, // Usar todo el espacio disponible
     flexDirection: 'column', // Elementos apilados verticalmente
     justifyContent: 'center', // Centrar contenido verticalmente
     alignItems: 'center', // Centrar contenido horizontalmente
   },
   scanner: {
-    flex: 0.9, // Toma la mayor parte de la pantalla
+    flex: 0.8, // Toma la mayor parte de la pantalla
     width: '100%', // Asegura que ocupe todo el ancho disponible
   },
   buttonContainer: {
@@ -130,32 +115,43 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     position: 'absolute',
-    bottom: 80, // Posiciona 20 píxeles arriba del borde inferior de la vista contenedora
+    bottom: 25, // Posiciona 20 píxeles arriba del borde inferior de la vista contenedora
     alignSelf: 'center' // Centra horizontalmente dentro del contenedor
   },
-  maintext: {
-      fontSize: 25,
-      fontWeight: 'bold',
-      margin: 50,
-      color: 'white',
-      position: 'absolute',
-      top: 20, // Posiciona 20 píxeles arriba del borde inferior de la vista contenedora
-      alignSelf: 'center' // Centra horizontalmente dentro del contenedor
+  titleScreen: {
+    fontSize: 25,
+    fontWeight: 'bold',
+    color: 'black',
+    position: 'absolute',
+    top: 25, // Posiciona 20 píxeles arriba del borde inferior de la vista contenedora
+    alignSelf: 'center' // Centra horizontalmente dentro del contenedor
   },
   button: {
-      padding: 10,
-      backgroundColor: '#27AE29',
-      borderRadius: 5,
-      marginTop: 30,
-      paddingHorizontal: 60
+    padding: 10,
+    backgroundColor: '#27AE29',
+    borderRadius: 5,
+    marginTop: 30,
+    paddingHorizontal: 60
   },
   buttonText: {
-      color: 'white',
-      textAlign: 'center',
-      fontSize: 20,
-      fontWeight: 'bold'
+    color: 'white',
+    textAlign: 'center',
+    fontSize: 20,
+    fontWeight: 'bold'
   },
-  imageStyle: {
-
+  overlay: {
+    position: 'absolute',
+    padding: 16,
+    right: 0,
+    left: 0,
+    alignItems: 'center',
+    justifyContent: 'center',
+    top: 0,
+    bottom: 0,
+  },
+  overlayImage: {
+    width: 200,  // Set the width and height as needed
+    height: 200,
+    resizeMode: 'contain'  // Ensure the entire image is fit within the bounds without clipping
   }
 });
