@@ -34,6 +34,15 @@
     ],
     "experiments": {
       "typedRoutes": true
-    }
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "fac87020-1018-49cc-a40c-24bb91620dbe"
+      }
+    },
+    "owner": "jonasdev24"
   }
 }
