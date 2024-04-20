@@ -1,10 +1,58 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
+
+import { Audio } from 'expo-av';
+import Icon from 'react-native-vector-icons/FontAwesome';  // Using FontAwesome icons
+import { FontAwesome } from '@expo/vector-icons';
+
 
 const MapScreen = () => {
   // Dummy coordinates for the marker
   const markerCoordinate = { latitude: 19.0051844, longitude: -98.2059513 };
+
+  const [sound, setSound] = useState<Audio.Sound | null>(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  useEffect(() => {
+    loadSound();
+    return () => {
+      // Unload the sound when the component is unmounted
+      sound?.unloadAsync();
+    };
+  }, []);
+
+  async function loadSound() {
+    const { sound: newSound } = await Audio.Sound.createAsync(
+      require('../assets/sound/alarma.mp3'), // Ensure this path is correct
+      { shouldPlay: false }
+    );
+    setSound(newSound);
+  }
+
+  const handlePlayPause = async () => {
+    if (!sound) {
+      return;
+    }
+
+    // if (isPlaying) {
+    //   await sound.pauseAsync();
+    // } else {
+    //   await sound.playAsync();
+    // }
+
+    if (isPlaying) {
+      console.log('Pausing Sound');
+      await sound.pauseAsync();
+      setIsPlaying(false);
+    } else {
+      console.log('Playing or Replaying Sound');
+      await sound.setPositionAsync(0);  // This line sets the playback position to the start
+      await sound.playAsync();
+      setIsPlaying(true);
+    }
+    setIsPlaying(!isPlaying);
+  };
 
   return (
     <View style={styles.container}>
@@ -31,6 +79,14 @@ const MapScreen = () => {
           </TouchableOpacity>
           <TouchableOpacity style={styles.registerButton}>
             <Text style={styles.registerButtonText}>Registrar</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.soundBtn} onPress={handlePlayPause}>
+            <FontAwesome 
+              name={isPlaying ? 'pause' : 'play'}
+              size={50}
+              color="white"
+            />
           </TouchableOpacity>
         </View>
       </View>
@@ -96,6 +152,16 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontWeight: 'bold',
   },
+  soundBtn: {
+    backgroundColor: '#FF6D00',
+    padding: 10,
+    borderRadius: 5,
+    // Flexbox properties for centering content
+    justifyContent: 'center', // Center vertically
+    alignItems: 'center', // Center horizontally
+    width: 80, // Define width for consistency
+    height: 80, // Define height for consistency
+  }
 });
 
 export default MapScreen;

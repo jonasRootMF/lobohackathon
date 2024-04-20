@@ -5,7 +5,6 @@ import {
   StyleSheet,
   Image,
   TouchableOpacity,
-  ScrollView,
 } from "react-native";
 
 const ElevateView = () => {
@@ -28,6 +27,10 @@ const ElevateView = () => {
         <TouchableOpacity style={styles.subscribeButton}>
           <Text style={styles.subscribeButtonText}>Suscribirme</Text>
         </TouchableOpacity>
+
+        <TouchableOpacity style={styles.entrarButton}>
+          <Text style={styles.entrarButtonText}>Entrar</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -40,7 +43,7 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     margin: 20,
-    padding: 20,
+    paddingBottom: 15,
     borderRadius: 50,
     backgroundColor: "#FFFFFF",
     flexDirection: 'column',
@@ -50,24 +53,13 @@ const styles = StyleSheet.create({
     color: "black",
   },
   logo: {
-    width: "100%",
-    height: "20%", // Replace with the size of your choice
-  },
-  title: {
-    fontSize: 22,
-    fontWeight: "bold",
-    color: "#000000",
-  },
-  subtitle: {
-    fontSize: 18,
-    color: "#000000",
-    marginBottom: 10,
+    width: "70%",
+    height: "30%", // Replace with the size of your choice
   },
   description: {
-    marginTop: 20,
     fontSize: 16,
     color: "#000000",
-    marginBottom: 20,
+    marginBottom: 10,
   },
   listContainer: {
     alignItems: "flex-start",
@@ -84,14 +76,25 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
     paddingHorizontal: 40,
     borderRadius: 25,
-    marginTop: 50,
-    marginBottom: 50, // Adjust as needed for your content
+    marginTop: 20
   },
   subscribeButtonText: {
     fontSize: 18,
     color: "#FFFFFF",
     fontWeight: "bold",
   },
+  entrarButton: {
+    marginTop: 5,
+    backgroundColor: "#ff5a00", // Replace with the color of your choice
+    paddingVertical: 15,
+    paddingHorizontal: 40,
+    borderRadius: 25,
+  },
+  entrarButtonText: {
+    fontSize: 18,
+    color: "#FFFFFF",
+    fontWeight: "bold",
+  }
 });
 
 export default ElevateView;

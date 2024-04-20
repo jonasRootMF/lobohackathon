@@ -34,6 +34,7 @@ export default function TabLayout() {
         headerShown: useClientOnlyValue(false, true),
         tabBarStyle: {
           height: 100,
+          paddingBottom: 20,
           position: 'relative'
         },
       }}
@@ -60,12 +61,12 @@ export default function TabLayout() {
         name="index"
         options={{
           tabBarItemStyle: {
-            top: 15
+            top: 5
           },
           tabBarLabelStyle: {
-            marginTop: -20,
+            marginTop: -30,
           },
-          title: "QR",
+          title: "",
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon focused={focused} name="qrcode" color={color} />
           ),
@@ -75,9 +76,9 @@ export default function TabLayout() {
         name="elevate"
         options={{
           tabBarItemStyle: {
-            backgroundColor: 'purple',
+            backgroundColor: '#0e2ca1',
             borderRadius: 50,
-            bottom: 40,
+            bottom: 50,
             zIndex: 3,
             left: '42%',
             position: 'absolute',
@@ -86,14 +87,16 @@ export default function TabLayout() {
           },
           tabBarLabelStyle: {
             color: 'white',
-            paddingBottom: 5
+            marginBottom: -25,
+            paddingBottom: 8
           },
-          title: "Elevate",
+          title: "",
           tabBarIcon: ({ color, focused }) => (
             <Image
               style={{
-                width: 25,
-                height: 30
+                tintColor: 'white',
+                width: 20,
+                height: 20
               }}
               source={require('@/assets/images/KigoSquareLogo.png')}
             />

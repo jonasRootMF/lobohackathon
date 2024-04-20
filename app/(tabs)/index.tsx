@@ -11,7 +11,6 @@ import { CameraView, Camera } from 'expo-camera/next'
 import axios from 'axios';
 import * as Notifications from 'expo-notifications';
 
-
 async function registerForPushNotificationsAsync(): Promise<string | undefined> {
   await Notifications.requestPermissionsAsync({
     ios: {
@@ -113,104 +112,103 @@ export default function TabOneScreen() {
     return <Text>No access to camera</Text>;
   }
 
-
-
   return (
-
-    <View style={styles.container}>
+      <View style={styles.container}>
       {/* <BarCodeScanner
         style={styles.scanner}
         onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
       /> */}
-        <CameraView
-          onBarcodeScanned={scanned ? undefined : handleBarCodeScanned}
-          barcodeScannerSettings={{
-            barcodeTypes: ["qr", "pdf417"],
-          }}
-          style={StyleSheet.absoluteFillObject}
+      <CameraView
+        onBarcodeScanned={scanned ? undefined : handleBarCodeScanned}
+        barcodeScannerSettings={{
+          barcodeTypes: ["qr", "pdf417"],
+        }}
+        style={StyleSheet.absoluteFillObject}
+      />
+
+      <Text style={styles.titleScreen}>Scan QR Code</Text>
+
+      <View style={styles.overlay}>
+        <Image
+          source={require('../../assets/images/cuadrado.png')}
+          style={styles.overlayImage}
         />
-
-        <Text style={styles.titleScreen}>Scan QR Code</Text>
-
-        <View style={styles.overlay}>
-          <Image
-            source={require('../../assets/images/cuadrado.png')}
-            style={styles.overlayImage}
-          />
-        </View>
-
-        {scanned && (
-          <View style={styles.buttonContainer}>
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() => setScanned(false)}
-            >
-              <Text style={styles.buttonText}>Scan Again</Text>
-            </TouchableOpacity>
-          </View>
-        )}
-
-
       </View>
-      );
+
+      {scanned && (
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => setScanned(false)}
+          >
+            <Text style={styles.buttonText}>Scan Again</Text>
+          </TouchableOpacity>
+        </View>
+      )}
+
+
+    </View>
+    
+    
+  );
 }
 
-      const styles = StyleSheet.create({
+const styles = StyleSheet.create({
 
-        container: {
-        backgroundColor: 'white',
-      flex: 1, // Usar todo el espacio disponible
-      flexDirection: 'column', // Elementos apilados verticalmente
-      justifyContent: 'center', // Centrar contenido verticalmente
-      alignItems: 'center', // Centrar contenido horizontalmente
+  container: {
+    backgroundColor: 'white',
+    flex: 1, // Usar todo el espacio disponible
+    flexDirection: 'column', // Elementos apilados verticalmente
+    justifyContent: 'center', // Centrar contenido verticalmente
+    alignItems: 'center', // Centrar contenido horizontalmente
   },
-      scanner: {
-        flex: 0.8, // Toma la mayor parte de la pantalla
-      width: '100%', // Asegura que ocupe todo el ancho disponible
+  scanner: {
+    flex: 0.8, // Toma la mayor parte de la pantalla
+    width: '100%', // Asegura que ocupe todo el ancho disponible
   },
-      buttonContainer: {
-        flex: 0.1, // Toma una pequeña parte de la pantalla
-      width: '100%', // Asegura que el botón ocupe todo el ancho disponible
-      justifyContent: 'center',
-      alignItems: 'center',
-      position: 'absolute',
-      bottom: 25, // Posiciona 20 píxeles arriba del borde inferior de la vista contenedora
-      alignSelf: 'center' // Centra horizontalmente dentro del contenedor
+  buttonContainer: {
+    flex: 0.1, // Toma una pequeña parte de la pantalla
+    width: '100%', // Asegura que el botón ocupe todo el ancho disponible
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'absolute',
+    bottom: 25, // Posiciona 20 píxeles arriba del borde inferior de la vista contenedora
+    alignSelf: 'center' // Centra horizontalmente dentro del contenedor
   },
-      titleScreen: {
-        fontSize: 25,
-      fontWeight: 'bold',
-      color: 'black',
-      position: 'absolute',
-      top: 25, // Posiciona 20 píxeles arriba del borde inferior de la vista contenedora
-      alignSelf: 'center' // Centra horizontalmente dentro del contenedor
+  titleScreen: {
+    fontSize: 25,
+    fontWeight: 'bold',
+    color: 'black',
+    position: 'absolute',
+    top: 25, // Posiciona 20 píxeles arriba del borde inferior de la vista contenedora
+    alignSelf: 'center' // Centra horizontalmente dentro del contenedor
   },
-      button: {
-        padding: 10,
-      backgroundColor: '#27AE29',
-      borderRadius: 5,
-      marginTop: 30,
-      paddingHorizontal: 60
+  button: {
+    padding: 10,
+    backgroundColor: '#27AE29',
+    borderRadius: 5,
+    marginTop: 30,
+    paddingHorizontal: 60
   },
-      buttonText: {
-        color: 'white',
-      textAlign: 'center',
-      fontSize: 20,
-      fontWeight: 'bold'
+  buttonText: {
+    color: 'white',
+    textAlign: 'center',
+    fontSize: 20,
+    fontWeight: 'bold'
   },
-      overlay: {
-        position: 'absolute',
-      padding: 16,
-      right: 0,
-      left: 0,
-      alignItems: 'center',
-      justifyContent: 'center',
-      top: 0,
-      bottom: 0
+  overlay: {
+    position: 'absolute',
+    padding: 16,
+    right: 0,
+    left: 0,
+    alignItems: 'center',
+    justifyContent: 'center',
+    top: 0,
+    bottom: 0
   },
-      overlayImage: {
-        width: 200,  // Set the width and height as needed
-      height: 200,
-      resizeMode: 'contain'  // Ensure the entire image is fit within the bounds without clipping
+  overlayImage: {
+    width: 200,  // Set the width and height as needed
+    height: 200,
+    resizeMode: 'contain'  // Ensure the entire image is fit within the bounds without clipping
   }
 });

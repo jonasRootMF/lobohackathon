@@ -12,7 +12,7 @@ type ButtonProps = {
   iconName: string;
 };
 
-const TabTwoScreen: React.FC = () => {
+const ElevateServicesScreen: React.FC = () => {
   const [activeButton, setActiveButton] = useState<string | null>(null);
 
   const buttons: ButtonProps[] = [
@@ -32,7 +32,7 @@ const TabTwoScreen: React.FC = () => {
 
       <View style={styles.sub_container}>
         <Image
-          source={require('../../assets/images/LOGO.png')}
+          source={require('../assets/images/LOGO.png')}
           style={styles.img_logo}
         />
         <View style={styles.container_subTitle}>
@@ -138,4 +138,4 @@ const styles = StyleSheet.create({
 });
 
 
-export default TabTwoScreen;
+export default ElevateServicesScreen;
