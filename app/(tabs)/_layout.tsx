@@ -11,8 +11,10 @@ import { useClientOnlyValue } from '@/components/useClientOnlyValue';
 function TabBarIcon(props: {
   name: React.ComponentProps<typeof FontAwesome>['name'];
   color: string;
+  focused: boolean;
 }) {
-  return <FontAwesome size={28} style={{ marginBottom: -3 }} {...props} />;
+  const iconColor = props.focused ? "#ff5a00" : props.color;
+  return <FontAwesome size={28} style={{ marginBottom: -3 }} {...props} color={iconColor} />;
 }
 
 export default function TabLayout() {
@@ -30,14 +32,18 @@ export default function TabLayout() {
         name="index"
         options={{
           title: 'QR',
-          tabBarIcon: ({ color }) => <TabBarIcon name="qrcode" color={'#ff5a00'} />,
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon focused={focused} name="qrcode" color={color} />
+          )
         }}
       />
       <Tabs.Screen
         name="two"
         options={{
-          title: 'Tab Two',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          title: 'Elevate services',
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon focused={focused} name="star" color={color} />
+          )
         }}
       />
     </Tabs>

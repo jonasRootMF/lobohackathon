@@ -206,7 +206,7 @@ export default function TabOneScreen() {
       alignItems: 'center',
       justifyContent: 'center',
       top: 0,
-      bottom: 0,
+      bottom: 0
   },
       overlayImage: {
         width: 200,  // Set the width and height as needed
