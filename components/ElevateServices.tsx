@@ -6,25 +6,28 @@ import { Text, View, TouchableOpacity, Image } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';  // Using FontAwesome icons
 import Colors from '@/constants/Colors';
 import { useState } from 'react';
+import { Link, router } from 'expo-router';
 
 type ButtonProps = {
   label: string;
   iconName: string;
+  link: string;
 };
 
 const ElevateServicesScreen: React.FC = () => {
   const [activeButton, setActiveButton] = useState<string | null>(null);
 
   const buttons: ButtonProps[] = [
-    { label: 'Renta Un Carro', iconName: 'car' },
-    { label: 'Aparta Tu Taxi', iconName: 'taxi' },
-    { label: 'Notificaciones', iconName: 'bell' },
-    { label: 'Tag', iconName: 'tag' },
+    { label: 'Renta Un Carro', iconName: 'car', link: '/services/carsScreen' },
+    { label: 'Aparta Tu Taxi', iconName: 'taxi', link: '/services/driver' },
+    { label: 'Notificaciones', iconName: 'bell', link: '/' },
+    { label: 'Tag', iconName: 'tag', link: '/' },
     // Add more buttons as needed
   ];
 
-  const handlePress = (label: string) => {
-    setActiveButton(label);
+  const handlePress = (link: string) => {
+    //@ts-ignore
+    router.push(link);
   };
 
   return (
@@ -46,23 +49,24 @@ const ElevateServicesScreen: React.FC = () => {
             const isActive = button.label === activeButton;
 
             return (
+              <>
+              { /* @ts-ignore */}
               <TouchableOpacity
                 key={index}
                 style={[styles.btnStyle, isActive ? styles.activeButton : null]}
-                onPress={() => handlePress(button.label)}
+                onPress={() => handlePress(button.link)}
               >
                 <Icon name={button.iconName} size={35} style={styles.iconStyle} color={isActive ? '#fff' : '#f98a52'}/>
                 <Text 
                   style={[styles.buttonText, isActive ? styles.activeText : null]}
                   >{button.label}</Text>
               </TouchableOpacity>
+              </>
             )
           }
 
           )}
         </View>
-
-
       </View>
     </View>
   );

@@ -1,3 +1,4 @@
+import { Link } from "expo-router";
 import React from "react";
 import {
   View,
@@ -28,9 +29,11 @@ const ElevateView = () => {
           <Text style={styles.subscribeButtonText}>Suscribirme</Text>
         </TouchableOpacity>
 
+        <Link href="/services/elevateServices" asChild>
         <TouchableOpacity style={styles.entrarButton}>
           <Text style={styles.entrarButtonText}>Entrar</Text>
         </TouchableOpacity>
+        </Link>
       </View>
     </View>
   );

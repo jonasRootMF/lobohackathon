@@ -6,7 +6,7 @@ import DriverSelectionScreen from "@/components/DriverSelectionScreen";
 const geosek = () => {
   return (
     <View style={styles.container}>
-      <DriverSelectionScreen/>
+      <Text>Under Construction...</Text>
     </View>
   );
 };

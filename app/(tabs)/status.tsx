@@ -1,11 +1,10 @@
-import CarSelectionScreen from '@/components/CarSelectionScreen'
 import React from 'react'
-import { View, StyleSheet } from 'react-native'
+import { View, StyleSheet, Text } from 'react-native'
 
 const status = () => {
   return (
     <View style={styles.container}>
-      <CarSelectionScreen/>
+      <Text>Under Construction...</Text>
     </View>
   )
 }
@@ -13,7 +12,8 @@ const status = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#ff5a00",
+    color: 'black',
+    backgroundColor: "white",
   },
 });
 
